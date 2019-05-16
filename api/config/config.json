@@ -1,24 +1,24 @@
 {
   "development": {
     "username": "postgres",
-    "password": "uv402-s",
-    "database": "futbol",
-    "host": "34.74.58.59",
+    "password": "Fidel123",
+    "database": "soccers2",
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "port" : 5432
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "postgres",
+    "password": "uv402-s",
+    "database": "futbol",
+    "host": "34.74.58.59",
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "postgres",
+    "password": "uv402-s",
+    "database": "futbol",
+    "host": "34.74.58.59",
     "dialect": "postgres"
   }
 }

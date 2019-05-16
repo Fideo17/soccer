@@ -6,7 +6,7 @@ var messageHelper = require('../helpers/message.helper');
 //var shortid = require('shortid');
 
 
-const { Soccers } = require('../models');	// Sequelize
+const { soccer } = require('../models');	// Sequelize
 
 ////////////////////////////////////////////////////////////////////////////////
 // CONSTANTS
@@ -25,25 +25,25 @@ const GS_CT_DELETED_SUCCESSFULLY = 'Gamesystem deleted successfully';
 ////////////////////////////////////////////////////////////////////////////////
 // PUBLIC METHODS
 ////////////////////////////////////////////////////////////////////////////////
-function getGameSystembyId(req, res) {
+function getSoccerbyId(req, res) {
   //console.log("operadores.controller getOperadorById");
   try {
 
     console.log(req.swagger.params.id.value);
     var id = req.swagger.params.id.value;
    
-    console.log("gamesystem by id..." + id);
-    //console.log(gamesystems);
+    console.log("soccer by id..." + id);
+    //console.log(soccer);
 
-    Gamesystems.findById(id)
-    .then(mygamesystem => {
-    console.log(mygamesystem);
-    res.status(200).send(mygamesystem);
+    soccer.findByPk(id)
+    .then(mysoccer => {
+    console.log(mysoccer);
+    res.status(200).send(mysoccer);
    })
 
   } catch (error) {
     console.log("Was an error");
-    controllerHelper.handleErrorResponse(MODULE_NAME, getGameSystembyId.name, error, res);
+    controllerHelper.handleErrorResponse(MODULE_NAME, getSoccerbyId.name, error, res);
   }
 }
 
@@ -52,8 +52,8 @@ function getSoccers(req, res) {
   try {
         
    console.log("soccer...");
-   console.log(Soccers);
-   Soccers.findAll({
+   console.log(soccer);
+   soccer.findAll({
     /*include: [{
       model: orderstatus
      
@@ -74,7 +74,7 @@ function getSoccers(req, res) {
   }
 }
 
-function updateGameSystem(req, res) {
+function updateSoccer(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
@@ -85,24 +85,28 @@ function updateGameSystem(req, res) {
     var id = req.swagger.params.id.value;
    
     console.log("params : " + id);
-    var myupdategamesystem = req.body;
-    console.log("update gamesystems ... " + myupdategamesystem.name + " " + myupdategamesystem.descripcion);
+    var myupdatesoccer = req.body;
+    console.log("update soccer ... " + myupdatesoccer.name + " " + myupdatesoccer.descripcion);
  
 
-    Gamesystems.findById(id)
-      .then(mygamesystem => {
-        console.log("Result of findById: " + mygamesystem);
-        if (!mygamesystem) {
+    soccer.findByPk(id)
+      .then(mysoccer => {
+        console.log("Result of findById: " + mysoccer);
+        if (!mysoccer) {
           res.status(401).send(({}));
         
         }
-        return mygamesystem
+        return mysoccer
           .update({ 
-            name: myupdategamesystem.name, 
-            description: myupdategamesystem.description 
+            name: myupdatesoccer.name, 
+            team: myupdatesoccer.team,
+            league: myupdatesoccer.league,
+            dtechnical: myupdatesoccer.dtechnical
+            
+
            })
-          .then(() => res.status(200).send(mygamesystem) )
-          .catch(error => res.status(403).send(mygamesystem));
+          .then(() => res.status(200).send(mysoccer) )
+          .catch(error => res.status(403).send(mysoccer));
         })
       .catch(error => {
           console.log("There was an error: " + error);
@@ -111,7 +115,7 @@ function updateGameSystem(req, res) {
 
   } catch (error) {
       console.log("Was an error");
-      controllerHelper.handleErrorResponse(MODULE_NAME, updateGameSystem.name, error, res);
+      controllerHelper.handleErrorResponse(MODULE_NAME, updateSoccer.name, error, res);
   }
 
 }
@@ -128,13 +132,15 @@ function addSoccer(req, res) {
     var mysoccer = req.body;
     console.log("soccer ... " + mysoccer);
  
-      return Soccers
+      return soccer
         .create({
           name: mysoccer.name,
           team: mysoccer.team,
           league: mysoccer.league,
-          dtechnical: mysoccer.dtechnical
-         
+          dtechnical: mysoccer.dtechnical,
+          createdAt: mysoccer.createdAt,
+          updatedAt: mysoccer.updatedAt
+
         }, {
         /*  include: [{
             model: order_detail,
@@ -155,7 +161,7 @@ function addSoccer(req, res) {
 }
 
 
-function deleteGameSystem(req, res) {
+function deleteSoccer(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,contenttype'); // If needed
@@ -164,16 +170,16 @@ function deleteGameSystem(req, res) {
   console.log(req.swagger.params.id.value);
   var id = req.swagger.params.id.value;
  
-  Gamesystems
-    .findById(id)
-    .then(mygamesystem => {
-      console.log("Result of findById: " + mygamesystem);
-      if (!mygamesystem) {
+  soccer.findByPk(id)
+  //Soccer.findById(id)
+    .then(mysoccer => {
+      console.log("Result of findById: " + mysoccer);
+      if (!mysoccer) {
         res.status(200).send({"success": 0, "description":"not found !"});
       }
       else
       {
-      return mygamesystem
+      return mysoccer
         .destroy()
         .then(() => res.status(200).send({"success": 1, "description":"deleted!"}))
         .catch(error => res.status(403).send({"success": 0, "description":"error !"}))
@@ -187,11 +193,11 @@ function deleteGameSystem(req, res) {
 }
 
 module.exports = {
-  getGameSystembyId,
+  getSoccerbyId,
   getSoccers,
-  updateGameSystem,
+  updateSoccer,
   addSoccer,
-  deleteGameSystem,
+  deleteSoccer,
   GS_CT_ERR_GAMESYSTEM_NOT_FOUND,
   GS_CT_DELETED_SUCCESSFULLY,
   MODULE_NAME

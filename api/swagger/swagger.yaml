@@ -3,8 +3,8 @@ info:
   version: "0.0.1"
   title: Hello World App
 # during dev, should point to your local machine
-#host: localhost:10010
-host: mysoccer-api.appspot.com
+host: localhost:10010
+#host: mysoccer-api.appspot.com
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -76,6 +76,70 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /soccer/{id}:
+    x-swagger-router-controller: soccer.controller
+    get:
+      description: get a game system
+      operationId: getSoccerbyId
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetSoccerResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: update a soccer
+      operationId: updateSoccer
+      # define the parameters
+      parameters:
+        - name: id
+          description: soccer id
+          type: number
+          in: path
+          required: true
+        - in: body
+          name: soccer
+          description: The Soccer to update.
+          schema:
+            $ref: "#/definitions/Soccer"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetSoccerResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+    delete:
+      description: delete a soccer
+      operationId: deleteSoccer
+      # define the parameters
+      parameters:
+        - name: id
+          description: soccer id
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -94,6 +158,12 @@ definitions:
         type: string
         description: Description of the Soccer
       dtechnical:
+        type: string 
+        description: Description oh the Soccer 
+      createdAt:
+        type: string 
+        description: Description oh the Soccer 
+      updatedAt:
         type: string 
         description: Description oh the Soccer 
         
