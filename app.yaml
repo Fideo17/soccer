@@ -10,7 +10,7 @@ resources:
 endpoints_api_service:
  # The following values are to be replaced by information from the output of
  # 'gcloud endpoints services deploy openapi-appengine.yaml' command.
- name: mysoccer-api.appspot.com
+ name: my-soccer-api.appspot.com
  #rollout_strategy: managed
  # Copyright 2015-2016, Google,
  config_id: 2019-05-21r0
