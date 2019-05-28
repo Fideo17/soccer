@@ -13,6 +13,6 @@ endpoints_api_service:
  name: my-soccer-api.appspot.com
  #rollout_strategy: managed
  # Copyright 2015-2016, Google,
- config_id: 2019-05-21r0
+ config_id: 2019-05-28r0
 
 

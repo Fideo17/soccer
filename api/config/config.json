@@ -16,9 +16,9 @@
   },
   "production": {
     "username": "postgres",
-    "password": "uv402-s",
+    "password": "lety0297",
     "database": "futbol",
-    "host": "34.74.58.59",
+    "host": "35.232.69.182",
     "dialect": "postgres"
   }
 }
